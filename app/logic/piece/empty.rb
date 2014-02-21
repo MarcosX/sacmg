@@ -10,7 +10,21 @@ module Piece
         down: self.down,
         left: self.left,
         right: self.right,
-        type: random_type
+        type: random_type,
+        x: self.x,
+        y: self.y
+      })
+    end
+
+    def assign_color_to_piece color
+      Piece::Colored.new({
+        up: self.up,
+        down: self.down,
+        left: self.left,
+        right: self.right,
+        type: color,
+        x: self.x,
+        y: self.y
       })
     end
 
@@ -20,13 +34,17 @@ module Piece
         down: self.down,
         left: self.left,
         right: self.right,
-        type: self.up.type
+        type: self.up.type,
+        x: self.x,
+        y: self.y
       })
       new_up = Piece::Empty.new({
         up: upper_piece.up,
         down: upper_piece.down,
         left: upper_piece.left,
-        right: upper_piece.right
+        right: upper_piece.right,
+        x: upper_piece.x,
+        y: upper_piece.y
       })
       [new_piece, new_up]
     end
