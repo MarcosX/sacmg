@@ -16,4 +16,11 @@ class Grid
       end
     end
   end
+
+  def play_move from, to
+    x_from, y_from = from
+    x_to, y_to = to
+
+    pieces[x_from][y_from].type, pieces[x_to][y_to].type = pieces[x_to][y_to].type, pieces[x_from][y_from].type
+  end
 end

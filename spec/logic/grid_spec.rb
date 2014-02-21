@@ -16,7 +16,13 @@ describe Grid do
   context "#play_move" do
     it "should swap the type of the two pieces" do
       g = Grid.new(width: 2, height: 1)
-      g.pieces[0][0] = Piece::Colored
+      g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::BLUE
+      g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::RED
+
+      g.play_move [0,0], [0,1]
+
+      g.pieces[0][0].type.should be_equal Piece::RED
+      g.pieces[0][1].type.should be_equal Piece::BLUE
     end
   end
 end
