@@ -2,13 +2,14 @@ require_relative "../../game_helper"
 
 module Piece
   class Generic
-    attr_accessor :up, :down, :left, :right, :type
+    attr_accessor :up, :down, :left, :right, :type, :x, :y
 
     def initialize args = {}
       assign_upper_piece args[:up] unless args[:up].nil?
       assign_lower_piece args[:down] unless args[:down].nil?
       assign_left_piece args[:left] unless args[:left].nil?
       assign_right_piece args[:right] unless args[:right].nil?
+      self.x, self.y = args[:x], args[:y]
     end
 
     protected
