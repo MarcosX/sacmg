@@ -1,5 +1,3 @@
-require_relative "../../spec_helper"
-
 describe Piece::Empty do
   context "#initialize" do
     it "should create an nil object" do

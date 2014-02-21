@@ -1,5 +1,3 @@
-require_relative "../../spec_helper"
-
 describe Piece::Colored do
   context "#initialize" do
     it "should have a color as type" do
