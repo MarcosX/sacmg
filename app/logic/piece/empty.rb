@@ -1,3 +1,4 @@
+require_relative "../piece"
 require_relative "generic"
 require_relative "colored"
 

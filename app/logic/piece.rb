@@ -1,9 +1,9 @@
 module Piece
-  BLUE = 'blue_piece'
-  RED = 'red_piece'
-  GREEN = 'green_piece'
-  YELLOW = 'yellow_piece'
-  BLACK = 'black_piece'
+  BLUE = 'b'
+  RED = 'r'
+  GREEN = 'g'
+  YELLOW = 'y'
+  PURPLE = 'p'
 
-  ALL_TYPES = [BLUE, RED, GREEN, YELLOW, BLACK]
+  ALL_TYPES = [BLUE, RED, GREEN, YELLOW, PURPLE]
 end
