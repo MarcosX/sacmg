@@ -9,10 +9,10 @@ class Grid
     self.height = args[:height]
     self.pieces = Array.new
 
-    (0..(width-1)).each do |i|
+    (0..(height-1)).each do |i|
       self.pieces[i] = Array.new
-      (0..(height-1)).each do |j|
-        self.pieces[i] << Piece::Empty.new(x: i, y: j)
+      (0..(width-1)).each do |j|
+        self.pieces[i] << Piece::Empty.new(x: j, y: i)
       end
     end
   end
