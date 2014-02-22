@@ -19,7 +19,8 @@ class Game < Chingu::Window
   def draw
     @grid.each_piece do |piece|
       w = 60
-      x = piece.x * w
+      offset = ($window.width - @grid.width*w)/2
+      x = piece.x * w + offset
       y = piece.y * w
       color = map_piece_type(piece.type)
       fill_rect [x+2, y+2, w-2, w-2], color
