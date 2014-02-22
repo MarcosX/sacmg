@@ -25,4 +25,15 @@ describe Grid do
       g.pieces[0][1].type.should be_equal Piece::BLUE
     end
   end
+
+  context "#each_piece" do
+    it "should return each piece" do
+      g = Grid.new(width: 2, height: 2)
+      pieces = Array.new
+      g.each_piece do |piece|
+        pieces << piece
+      end
+      pieces.size.should == 4
+    end
+  end
 end

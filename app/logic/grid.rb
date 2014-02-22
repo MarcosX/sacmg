@@ -23,4 +23,12 @@ class Grid
 
     pieces[x_from][y_from].type, pieces[x_to][y_to].type = pieces[x_to][y_to].type, pieces[x_from][y_from].type
   end
+
+  def each_piece
+    self.pieces.each do |row|
+      row.each do |piece|
+        yield piece
+      end
+    end
+  end
 end
