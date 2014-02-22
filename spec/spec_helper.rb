@@ -1,4 +1,4 @@
-Dir["app/**/**/*.rb"].each {|file| require_relative "../#{file}" }
+Dir["app/logic/**/*.rb"].each {|file| require_relative "../#{file}" }
 
 RSpec.configure do |config|
   # Ativa output colorido

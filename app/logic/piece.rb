@@ -3,7 +3,7 @@ module Piece
   RED = 'r'
   GREEN = 'g'
   YELLOW = 'y'
-  PURPLE = 'p'
+  FUCHSIA = 'f'
 
-  ALL_TYPES = [BLUE, RED, GREEN, YELLOW, PURPLE]
+  ALL_TYPES = [BLUE, RED, GREEN, YELLOW, FUCHSIA]
 end
