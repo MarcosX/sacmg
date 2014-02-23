@@ -22,7 +22,7 @@ module Piece
       taken_types << self.down.type unless self.down.nil?
       taken_types << self.left.type unless self.left.nil?
       taken_types << self.right.type unless self.right.nil?
-      taken_types = taken_types.sort.uniq
+      taken_types = taken_types.compact.sort.uniq
 
       Piece::Colored.new({
         up: self.up,
