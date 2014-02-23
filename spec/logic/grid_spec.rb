@@ -42,8 +42,8 @@ describe Grid do
       g = Grid.new(width: 2, height: 1)
       g.select_piece(0, 1)
 
-      g.current_piece_x.should == 0
-      g.current_piece_y.should == 1
+      g.current_piece_x.should == 1
+      g.current_piece_y.should == 0
     end
 
     it "should swap pieces if the move is only one piece away and unselect pieces" do

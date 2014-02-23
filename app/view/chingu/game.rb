@@ -21,7 +21,9 @@ class Game < Chingu::Window
     @offset = ($window.width - @grid.width*Piece::WIDTH)/2
     cursor_x = ($window.mouse_x.to_i-@offset)/Piece::WIDTH
     cursor_y = $window.mouse_y.to_i/Piece::WIDTH
-    fill_rect [cursor_x*Piece::WIDTH + @offset, cursor_y*Piece::WIDTH, Piece::WIDTH, Piece::WIDTH], Gosu::Color::WHITE
+    if ($window.mouse_x > @offset) && ($window.mouse_x < ($window.width - @offset))
+      fill_rect [cursor_x*Piece::WIDTH + @offset, cursor_y*Piece::WIDTH, Piece::WIDTH, Piece::WIDTH], Gosu::Color::WHITE
+    end
 
     if !@grid.current_piece_x.nil?
       fill_rect [@grid.current_piece_x*Piece::WIDTH + @offset, @grid.current_piece_y*Piece::WIDTH, Piece::WIDTH, Piece::WIDTH], Gosu::Color::WHITE
@@ -42,7 +44,7 @@ class Game < Chingu::Window
   def click
     mouse_index_x = ($window.mouse_x.to_i-@offset)/Piece::WIDTH
     mouse_index_y = $window.mouse_y.to_i/Piece::WIDTH
-    @grid.select_piece mouse_index_x, mouse_index_y
+    @grid.select_piece mouse_index_y, mouse_index_x
   end
 
   protected
