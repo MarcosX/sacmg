@@ -25,9 +25,16 @@ describe Piece::Generic do
         right: right_piece })
 
       center_piece.up.should be_equal upper_piece
+      upper_piece.down.should be_equal center_piece
+
       center_piece.down.should be_equal lower_piece
+      lower_piece.up.should be_equal center_piece
+
       center_piece.left.should be_equal left_piece
+      left_piece.right.should be_equal center_piece
+
       center_piece.right.should be_equal right_piece
+      right_piece.left.should be_equal center_piece
     end
   end
 end

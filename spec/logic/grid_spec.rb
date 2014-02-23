@@ -11,6 +11,22 @@ describe Grid do
         end
       end
     end
+
+    it "should create pieces with neighbors" do
+      g = Grid.new(width: 2, height: 2)
+
+      g.pieces[0][0].right.should be_equal g.pieces[0][1]
+      g.pieces[0][0].down.should be_equal g.pieces[1][0]
+
+      g.pieces[1][0].right.should be_equal g.pieces[1][1]
+      g.pieces[1][0].up.should be_equal g.pieces[0][0]
+
+      g.pieces[0][1].left.should be_equal g.pieces[0][0]
+      g.pieces[0][1].down.should be_equal g.pieces[1][1]
+
+      g.pieces[1][1].up.should be_equal g.pieces[0][1]
+      g.pieces[1][1].left.should be_equal g.pieces[1][0]
+    end
   end
 
   context "#play_move" do
