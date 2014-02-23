@@ -12,7 +12,7 @@ class Game < Chingu::Window
     @grid = Grid.new(width: 10, height: 10)
     @grid.pieces.each_with_index do |row, i|
       row.each_with_index do |piece, j|
-        @grid.pieces[i][j] = piece.generate_random_piece
+        @grid.pieces[i][j] = piece.generate_safe_random_piece
       end
     end
   end

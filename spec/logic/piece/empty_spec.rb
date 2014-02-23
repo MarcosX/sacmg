@@ -37,4 +37,18 @@ describe Piece::Empty do
       p.y.should == 0
     end
   end
+
+  context "#generate_safe_random_piece" do
+    it "should generate a piece without matching the neighbors" do
+      upper_piece = Piece::Colored.new(type: Piece::BLUE)
+      lower_piece = Piece::Colored.new(type: Piece::RED)
+      left_piece = Piece::Colored.new(type: Piece::YELLOW)
+      right_piece = Piece::Colored.new(type: Piece::FUCHSIA)
+      empty_piece = Piece::Empty.new(up: upper_piece, down: lower_piece, left: left_piece, right: right_piece)
+
+      empty_piece = empty_piece.generate_safe_random_piece
+
+      [Piece::BLUE, Piece::RED, Piece::YELLOW, Piece::FUCHSIA].should_not include(empty_piece.type)
+    end
+  end
 end

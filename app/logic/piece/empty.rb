@@ -16,6 +16,25 @@ module Piece
       })
     end
 
+    def generate_safe_random_piece
+      taken_types = Array.new
+      taken_types << self.up.type unless self.up.nil?
+      taken_types << self.down.type unless self.down.nil?
+      taken_types << self.left.type unless self.left.nil?
+      taken_types << self.right.type unless self.right.nil?
+      taken_types = taken_types.sort.uniq
+
+      Piece::Colored.new({
+        up: self.up,
+        down: self.down,
+        left: self.left,
+        right: self.right,
+        type: random_type_excluding(taken_types),
+        x: self.x,
+        y: self.y
+      })
+    end
+
     def assign_color_to_piece color
       Piece::Colored.new({
         up: self.up,
@@ -52,6 +71,11 @@ module Piece
     protected
     def random_type
       Piece::ALL_TYPES[rand(Piece::ALL_TYPES.size)]
+    end
+
+    def random_type_excluding taken_types
+      available_types = Piece::ALL_TYPES - taken_types
+      available_types[rand(available_types.size)]
     end
   end
 end
