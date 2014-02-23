@@ -46,18 +46,7 @@ describe Grid do
       g.current_piece_y.should == 1
     end
 
-    it "should save the position of the previous selected piece when called twice" do
-      g = Grid.new(width: 2, height: 1)
-      g.select_piece(0, 1)
-      g.select_piece(0, 0)
-
-      g.current_piece_x.should == 0
-      g.current_piece_y.should == 0
-      g.previous_piece_x.should == 0
-      g.previous_piece_y.should == 1
-    end
-
-    it "should swap pieces if the move is only one piece away" do
+    it "should swap pieces if the move is only one piece away and unselect pieces" do
       g = Grid.new(width: 2, height: 1)
       g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::BLUE
       g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::RED
@@ -65,10 +54,10 @@ describe Grid do
       g.select_piece(0, 1)
       g.select_piece(0, 0)
 
-      g.current_piece_x.should == 0
-      g.current_piece_y.should == 0
-      g.previous_piece_x.should == 0
-      g.previous_piece_y.should == 1
+      g.current_piece_x.should be_nil
+      g.current_piece_y.should be_nil
+      g.previous_piece_x.should be_nil
+      g.previous_piece_y.should be_nil
       g.pieces[0][0].type.should be_equal Piece::RED
       g.pieces[0][1].type.should be_equal Piece::BLUE
     end

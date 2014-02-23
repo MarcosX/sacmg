@@ -18,23 +18,22 @@ class Grid
   end
 
   def play_move from, to
-    x_from, y_from = from
-    x_to, y_to = to
+    y_from, x_from = from
+    y_to, x_to = to
 
-    pieces[x_from][y_from].type, pieces[x_to][y_to].type = pieces[x_to][y_to].type, pieces[x_from][y_from].type
+    @pieces[y_from][x_from].type, @pieces[y_to][x_to].type = @pieces[y_to][x_to].type, @pieces[y_from][x_from].type
   end
 
   def select_piece x, y
     @previous_piece_x = @current_piece_x
     @previous_piece_y = @current_piece_y
 
-    @current_piece_x = x
-    @current_piece_y = y
+    @current_piece_x, @current_piece_y = x, y
 
     if !@previous_piece_y.nil?
       if (@current_piece_x - @previous_piece_x).abs  <= 1 && (@current_piece_y - @previous_piece_y).abs < 1 ||
         (@current_piece_y - @previous_piece_y).abs  <= 1 && (@current_piece_x - @previous_piece_x).abs < 1
-          play_move [@current_piece_y, @current_piece_x], [@previous_piece_y, @previous_piece_x]
+          play_move [@current_piece_x, @current_piece_y], [@previous_piece_x, @previous_piece_y]
           @current_piece_x = @current_piece_y = nil
       end
       @previous_piece_x = @previous_piece_y = nil
