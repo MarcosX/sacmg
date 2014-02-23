@@ -8,7 +8,6 @@ class Game < Chingu::Window
   def initialize
     super
     self.input = {escape: :exit, left_mouse_button: :click}
-    @w = 60
     @mouse_clicked = 0
     @grid = Grid.new(width: 10, height: 10)
     @grid.pieces.each_with_index do |row, i|
@@ -19,38 +18,31 @@ class Game < Chingu::Window
   end
 
   def draw
-    @offset = ($window.width - @grid.width*@w)/2
-    cursor_x = ($window.mouse_x.to_i-@offset)/@w
-    cursor_y = $window.mouse_y.to_i/@w
-    fill_rect [cursor_x*@w + @offset, cursor_y*@w, @w, @w], Gosu::Color::WHITE
+    @offset = ($window.width - @grid.width*Piece::WIDTH)/2
+    cursor_x = ($window.mouse_x.to_i-@offset)/Piece::WIDTH
+    cursor_y = $window.mouse_y.to_i/Piece::WIDTH
+    fill_rect [cursor_x*Piece::WIDTH + @offset, cursor_y*Piece::WIDTH, Piece::WIDTH, Piece::WIDTH], Gosu::Color::WHITE
 
-    if @mouse_clicked > 0
-      fill_rect [@mouse_x*@w + @offset, @mouse_y*@w, @w, @w], Gosu::Color::WHITE
-      if @mouse_clicked > 1
-        @mouse_clicked = 0
-        if (@previous_mouse_x - @mouse_x).abs <= 1 && (@previous_mouse_y - @mouse_y).abs < 1 ||
-          (@previous_mouse_y - @mouse_y).abs <= 1 && (@previous_mouse_x - @mouse_x).abs < 1
-            @grid.play_move [@previous_mouse_y, @previous_mouse_x], [@mouse_y, @mouse_x]
-        else
-          @mouse_clicked = 1
-        end
-      end
+    if !@grid.current_piece_x.nil?
+      fill_rect [@grid.current_piece_x*Piece::WIDTH + @offset, @grid.current_piece_y*Piece::WIDTH, Piece::WIDTH, Piece::WIDTH], Gosu::Color::WHITE
+    end
+
+    if !@grid.previous_piece_x.nil?
+      fill_rect [@grid.previous_piece_x*Piece::WIDTH + @offset, @grid.previous_piece_y*Piece::WIDTH, Piece::WIDTH, Piece::WIDTH], Gosu::Color::WHITE
     end
 
     @grid.each_piece do |piece|
-      x = piece.x * @w + @offset
-      y = piece.y * @w
+      x = piece.x * Piece::WIDTH + @offset
+      y = piece.y * Piece::WIDTH
       color = map_piece_type(piece.type)
-      fill_rect [x+2, y+2, @w-4, @w-4], color
+      fill_rect [x+2, y+2, Piece::WIDTH-4, Piece::WIDTH-4], color
     end
   end
 
   def click
-    @previous_mouse_x = @mouse_x
-    @previous_mouse_y = @mouse_y
-    @mouse_x = ($window.mouse_x.to_i-@offset)/@w
-    @mouse_y = $window.mouse_y.to_i/@w
-    @mouse_clicked += 1
+    mouse_index_x = ($window.mouse_x.to_i-@offset)/Piece::WIDTH
+    mouse_index_y = $window.mouse_y.to_i/Piece::WIDTH
+    @grid.select_piece mouse_index_x, mouse_index_y
   end
 
   protected
