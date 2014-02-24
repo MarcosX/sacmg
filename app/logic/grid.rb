@@ -35,10 +35,9 @@ class Grid
     @current_piece_y, @current_piece_x = y, x
 
     if !@previous_piece_y.nil?
-      if (@current_piece_x - @previous_piece_x).abs  <= 1 && (@current_piece_y - @previous_piece_y).abs < 1 ||
-        (@current_piece_y - @previous_piece_y).abs  <= 1 && (@current_piece_x - @previous_piece_x).abs < 1
-          play_move [@current_piece_y, @current_piece_x], [@previous_piece_y, @previous_piece_x]
-          @current_piece_x = @current_piece_y = nil
+      if selected_pieces_are_neighbors?
+        play_move [@current_piece_y, @current_piece_x], [@previous_piece_y, @previous_piece_x]
+        @current_piece_x = @current_piece_y = nil
       end
       @previous_piece_x = @previous_piece_y = nil
     end
@@ -50,5 +49,12 @@ class Grid
         yield piece
       end
     end
+  end
+
+  protected
+
+  def selected_pieces_are_neighbors?
+    (@current_piece_x - @previous_piece_x).abs  <= 1 && (@current_piece_y - @previous_piece_y).abs < 1 ||
+      (@current_piece_y - @previous_piece_y).abs  <= 1 && (@current_piece_x - @previous_piece_x).abs < 1
   end
 end
