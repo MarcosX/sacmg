@@ -93,4 +93,25 @@ describe Grid do
       g.previous_piece_y.should be_nil
     end
   end
+
+  context "#find_matching_pieces_and_update_grid" do
+    it "should do nothing if the total of matches is lower than 3" do
+      g = Grid.new(width: 3, height: 1)
+      g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::RED
+      g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::RED
+      g.pieces[0][2] = g.pieces[0][2].assign_color_to_piece Piece::BLUE
+
+      g.should_receive :find_matching_pieces_and_update_grid
+
+      g.select_piece 0, 0
+      g.select_piece 0, 1
+    end
+
+    xit "should make matching colors empty and copy the upper piece type" do
+      g = Grid.new(width: 3, height: 2)
+      g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::RED
+      g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::RED
+      g.pieces[0][2] = g.pieces[0][2].assign_color_to_piece Piece::BLUE
+    end
+  end
 end
