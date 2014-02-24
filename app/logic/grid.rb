@@ -37,6 +37,7 @@ class Grid
     if !@previous_piece_y.nil?
       if selected_pieces_are_neighbors?
         play_move [@current_piece_y, @current_piece_x], [@previous_piece_y, @previous_piece_x]
+        find_matching_pieces_and_update_grid
         @current_piece_x = @current_piece_y = nil
       end
       @previous_piece_x = @previous_piece_y = nil
@@ -49,6 +50,9 @@ class Grid
         yield piece
       end
     end
+  end
+
+  def find_matching_pieces_and_update_grid
   end
 
   protected
