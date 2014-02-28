@@ -107,11 +107,22 @@ describe Grid do
       g.select_piece 0, 1
     end
 
-    xit "should make matching colors empty and copy the upper piece type" do
+    it "should make matching colors empty and copy the upper piece type" do
       g = Grid.new(width: 3, height: 2)
-      g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::RED
+      g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::FUCHSIA
       g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::RED
       g.pieces[0][2] = g.pieces[0][2].assign_color_to_piece Piece::BLUE
+
+      g.pieces[1][0] = g.pieces[1][0].assign_color_to_piece Piece::RED
+      g.pieces[1][1] = g.pieces[1][1].assign_color_to_piece Piece::YELLOW
+      g.pieces[1][2] = g.pieces[1][2].assign_color_to_piece Piece::RED
+
+      g.select_piece 0, 1
+      g.select_piece 1, 1
+
+      g.pieces[1][0].type.should be_equal Piece::FUCHSIA
+      g.pieces[1][1].type.should be_equal Piece::YELLOW
+      g.pieces[1][2].type.should be_equal Piece::BLUE
     end
   end
 end

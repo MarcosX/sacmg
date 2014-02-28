@@ -53,6 +53,29 @@ class Grid
   end
 
   def find_matching_pieces_and_update_grid
+    current_piece_matchings = self.pieces[@current_piece_y][@current_piece_x].find_matching_pieces
+    previous_piece_matchings = self.pieces[@previous_piece_y][@previous_piece_x].find_matching_pieces
+    matching_pieces = (current_piece_matchings + previous_piece_matchings).uniq
+
+    if matching_pieces.size > 2
+      matching_pieces.each do |match|
+        piece_y, piece_x = match
+        self.pieces[piece_y][piece_x] = self.pieces[piece_y][piece_x].generate_empty_piece
+        if piece_y > 0
+          self.pieces[piece_y][piece_x], self.pieces[piece_y-1][piece_x] =
+            self.pieces[piece_y][piece_x].copy_from_upper_piece(self.pieces[piece_y-1][piece_x])
+          next_piece_y = piece_y - 1
+          while(next_piece_y > 0) do
+            self.pieces[next_piece_y][piece_x], self.pieces[next_piece_y-1][piece_x] =
+              self.pieces[next_piece_y][piece_x].copy_from_upper_piece(self.pieces[next_piece_y-1][piece_x])
+            next_piece_y -= 1
+          end
+          self.pieces[next_piece_y][piece_x] = self.pieces[next_piece_y][piece_x].generate_safe_random_piece
+        else
+          self.pieces[piece_y][piece_x] = self.pieces[piece_y][piece_x].generate_safe_random_piece
+        end
+      end
+    end
   end
 
   protected

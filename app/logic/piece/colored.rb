@@ -46,7 +46,10 @@ module Piece
         piece = piece.down
       end
 
-      (horizontal_matches + vertical_matches).uniq
+      total_matches = []
+      total_matches +=  horizontal_matches if horizontal_matches.size > 2
+      total_matches +=  vertical_matches if vertical_matches.size > 2
+      total_matches.uniq
     end
   end
 end
