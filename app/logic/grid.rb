@@ -38,7 +38,7 @@ class Grid
     if !@previous_piece_y.nil?
       if selected_pieces_are_neighbors?
         play_move [@current_piece_y, @current_piece_x], [@previous_piece_y, @previous_piece_x]
-        find_matching_pieces_and_update_grid
+        find_matching_pieces
         @current_piece_x = @current_piece_y = nil
       end
       @previous_piece_x = @previous_piece_y = nil
@@ -53,7 +53,7 @@ class Grid
     end
   end
 
-  def find_matching_pieces_and_update_grid
+  def find_matching_pieces
     @matching_pieces = []
     current_piece_matchings = self.pieces[@current_piece_y][@current_piece_x].find_matching_pieces
     previous_piece_matchings = self.pieces[@previous_piece_y][@previous_piece_x].find_matching_pieces
@@ -61,11 +61,10 @@ class Grid
 
     if current_matching_pieces.size > 2
       @matching_pieces = current_matching_pieces
-      update_grid_with current_matching_pieces
     end
   end
 
-  def find_other_matching_pieces_and_update_grid
+  def find_other_matching_pieces
     @matching_pieces = []
     matches = []
     self.each_piece do |piece|
@@ -75,13 +74,11 @@ class Grid
 
     if matches.size > 2
       @matching_pieces = matches
-      update_grid_with matches
     end
   end
 
-  protected
-  def update_grid_with current_matching_pieces
-    current_matching_pieces.each do |match|
+  def update_grid
+    @matching_pieces.each do |match|
       piece_y, piece_x = match
       self.pieces[piece_y][piece_x] = self.pieces[piece_y][piece_x].generate_empty_piece
       if piece_y > 0
@@ -100,6 +97,7 @@ class Grid
     end
   end
 
+  protected
   def selected_pieces_are_neighbors?
     (@current_piece_x - @previous_piece_x).abs  <= 1 && (@current_piece_y - @previous_piece_y).abs < 1 ||
       (@current_piece_y - @previous_piece_y).abs  <= 1 && (@current_piece_x - @previous_piece_x).abs < 1
