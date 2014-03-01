@@ -57,11 +57,8 @@ class Grid
     @matching_pieces = []
     current_piece_matchings = self.pieces[@current_piece_y][@current_piece_x].find_matching_pieces
     previous_piece_matchings = self.pieces[@previous_piece_y][@previous_piece_x].find_matching_pieces
-    current_matching_pieces = (current_piece_matchings + previous_piece_matchings).uniq
-
-    if current_matching_pieces.size > 2
-      @matching_pieces = current_matching_pieces
-    end
+    @matching_pieces = @matching_pieces + current_piece_matchings if current_piece_matchings.size > 2
+    @matching_pieces = @matching_pieces + previous_piece_matchings if previous_piece_matchings.size > 2
   end
 
   def find_other_matching_pieces
@@ -70,11 +67,8 @@ class Grid
     self.each_piece do |piece|
       matches = matches + piece.find_matching_pieces
     end
-    matches = matches.uniq!
-
-    if matches.size > 2
-      @matching_pieces = matches
-    end
+    matches = matches.uniq
+    @matching_pieces = matches if matches.size > 2
   end
 
   def update_grid

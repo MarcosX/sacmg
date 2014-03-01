@@ -36,19 +36,19 @@ module Piece
 
       piece = self.up
       while(!piece.nil? && piece.type == self.type) do
-        horizontal_matches << [piece.y, piece.x]
+        vertical_matches << [piece.y, piece.x]
         piece = piece.up
       end
 
       piece = self.down
       while(!piece.nil? && piece.type == self.type) do
-        horizontal_matches << [piece.y, piece.x]
+        vertical_matches << [piece.y, piece.x]
         piece = piece.down
       end
 
       total_matches = []
-      total_matches +=  horizontal_matches if horizontal_matches.size > 2
-      total_matches +=  vertical_matches if vertical_matches.size > 2
+      total_matches = total_matches +  horizontal_matches if horizontal_matches.size > 2
+      total_matches = total_matches +  vertical_matches if vertical_matches.size > 2
       total_matches.uniq
     end
   end
