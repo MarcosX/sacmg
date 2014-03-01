@@ -72,7 +72,6 @@ class Game < Chingu::Window
   end
 
   def highlight_pieces pieces
-    puts pieces.inspect
     pieces.each do |piece|
       piece_y, piece_x = piece
       fill_rect [piece_x*Piece::WIDTH + @offset, piece_y*Piece::WIDTH, Piece::WIDTH, Piece::WIDTH], Gosu::Color::WHITE
