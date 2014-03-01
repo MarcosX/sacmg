@@ -2,12 +2,13 @@ require_relative "piece/empty"
 require_relative "piece/colored"
 
 class Grid
-  attr_accessor :width, :height, :pieces, :current_piece_x, :current_piece_y, :previous_piece_x, :previous_piece_y
+  attr_accessor :width, :height, :pieces, :current_piece_x, :current_piece_y, :previous_piece_x, :previous_piece_y, :matching_pieces
 
   def initialize args = {}
     self.width = args[:width]
     self.height = args[:height]
     self.pieces = Array.new
+    self.matching_pieces = Array.new
 
     (0..(height-1)).each do |y|
       self.pieces[y] = Array.new
@@ -53,32 +54,51 @@ class Grid
   end
 
   def find_matching_pieces_and_update_grid
+    @matching_pieces = []
     current_piece_matchings = self.pieces[@current_piece_y][@current_piece_x].find_matching_pieces
     previous_piece_matchings = self.pieces[@previous_piece_y][@previous_piece_x].find_matching_pieces
-    matching_pieces = (current_piece_matchings + previous_piece_matchings).uniq
+    current_matching_pieces = (current_piece_matchings + previous_piece_matchings).uniq
 
-    if matching_pieces.size > 2
-      matching_pieces.each do |match|
-        piece_y, piece_x = match
-        self.pieces[piece_y][piece_x] = self.pieces[piece_y][piece_x].generate_empty_piece
-        if piece_y > 0
-          self.pieces[piece_y][piece_x], self.pieces[piece_y-1][piece_x] =
-            self.pieces[piece_y][piece_x].copy_from_upper_piece(self.pieces[piece_y-1][piece_x])
-          next_piece_y = piece_y - 1
-          while(next_piece_y > 0) do
-            self.pieces[next_piece_y][piece_x], self.pieces[next_piece_y-1][piece_x] =
-              self.pieces[next_piece_y][piece_x].copy_from_upper_piece(self.pieces[next_piece_y-1][piece_x])
-            next_piece_y -= 1
-          end
-          self.pieces[next_piece_y][piece_x] = self.pieces[next_piece_y][piece_x].generate_safe_random_piece
-        else
-          self.pieces[piece_y][piece_x] = self.pieces[piece_y][piece_x].generate_safe_random_piece
-        end
-      end
+    if current_matching_pieces.size > 2
+      @matching_pieces = current_matching_pieces
+      update_grid_with current_matching_pieces
+    end
+  end
+
+  def find_other_matching_pieces_and_update_grid
+    @matching_pieces = []
+    matches = []
+    self.each_piece do |piece|
+      matches = matches + piece.find_matching_pieces
+    end
+    matches = matches.uniq!
+
+    if matches.size > 2
+      @matching_pieces = matches
+      update_grid_with matches
     end
   end
 
   protected
+  def update_grid_with current_matching_pieces
+    current_matching_pieces.each do |match|
+      piece_y, piece_x = match
+      self.pieces[piece_y][piece_x] = self.pieces[piece_y][piece_x].generate_empty_piece
+      if piece_y > 0
+        self.pieces[piece_y][piece_x], self.pieces[piece_y-1][piece_x] =
+          self.pieces[piece_y][piece_x].copy_from_upper_piece(self.pieces[piece_y-1][piece_x])
+        next_piece_y = piece_y - 1
+        while(next_piece_y > 0) do
+          self.pieces[next_piece_y][piece_x], self.pieces[next_piece_y-1][piece_x] =
+            self.pieces[next_piece_y][piece_x].copy_from_upper_piece(self.pieces[next_piece_y-1][piece_x])
+          next_piece_y -= 1
+        end
+        self.pieces[next_piece_y][piece_x] = self.pieces[next_piece_y][piece_x].generate_safe_random_piece
+      else
+        self.pieces[piece_y][piece_x] = self.pieces[piece_y][piece_x].generate_safe_random_piece
+      end
+    end
+  end
 
   def selected_pieces_are_neighbors?
     (@current_piece_x - @previous_piece_x).abs  <= 1 && (@current_piece_y - @previous_piece_y).abs < 1 ||

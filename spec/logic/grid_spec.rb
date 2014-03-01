@@ -101,28 +101,91 @@ describe Grid do
       g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::RED
       g.pieces[0][2] = g.pieces[0][2].assign_color_to_piece Piece::BLUE
 
-      g.should_receive :find_matching_pieces_and_update_grid
+      g.previous_piece_y, g.previous_piece_x = 0, 0
+      g.current_piece_y, g.current_piece_x = 0, 1
+      g.find_matching_pieces_and_update_grid
 
-      g.select_piece 0, 0
-      g.select_piece 0, 1
+      g.pieces[0][0].type.should be_equal Piece::RED
+      g.pieces[0][1].type.should be_equal Piece::RED
+      g.pieces[0][2].type.should be_equal Piece::BLUE
     end
 
     it "should make matching colors empty and copy the upper piece type" do
       g = Grid.new(width: 3, height: 2)
       g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::FUCHSIA
-      g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::RED
+      g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::YELLOW
       g.pieces[0][2] = g.pieces[0][2].assign_color_to_piece Piece::BLUE
 
       g.pieces[1][0] = g.pieces[1][0].assign_color_to_piece Piece::RED
-      g.pieces[1][1] = g.pieces[1][1].assign_color_to_piece Piece::YELLOW
+      g.pieces[1][1] = g.pieces[1][1].assign_color_to_piece Piece::RED
       g.pieces[1][2] = g.pieces[1][2].assign_color_to_piece Piece::RED
 
-      g.select_piece 0, 1
-      g.select_piece 1, 1
+      g.previous_piece_y, g.previous_piece_x = 0, 1
+      g.current_piece_y, g.current_piece_x = 1, 1
+      g.find_matching_pieces_and_update_grid
 
       g.pieces[1][0].type.should be_equal Piece::FUCHSIA
       g.pieces[1][1].type.should be_equal Piece::YELLOW
       g.pieces[1][2].type.should be_equal Piece::BLUE
+    end
+
+    it "should make matches with pieces that fall after the first match" do
+      g = Grid.new(width: 4, height: 3)
+      g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::FUCHSIA
+      g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::YELLOW
+      g.pieces[0][2] = g.pieces[0][2].assign_color_to_piece Piece::BLUE
+      g.pieces[0][3] = g.pieces[0][3].assign_color_to_piece Piece::GREEN
+
+      g.pieces[1][0] = g.pieces[1][0].assign_color_to_piece Piece::GREEN
+      g.pieces[1][1] = g.pieces[1][1].assign_color_to_piece Piece::RED
+      g.pieces[1][2] = g.pieces[1][2].assign_color_to_piece Piece::RED
+      g.pieces[1][3] = g.pieces[1][3].assign_color_to_piece Piece::YELLOW
+
+      g.pieces[2][0] = g.pieces[2][0].assign_color_to_piece Piece::RED
+      g.pieces[2][1] = g.pieces[2][1].assign_color_to_piece Piece::BLUE
+      g.pieces[2][2] = g.pieces[2][2].assign_color_to_piece Piece::BLUE
+      g.pieces[2][3] = g.pieces[2][3].assign_color_to_piece Piece::BLUE
+
+      g.previous_piece_y, g.previous_piece_x = 2, 2
+      g.current_piece_y, g.current_piece_x = 2, 3
+      g.find_matching_pieces_and_update_grid
+
+      g.pieces[2][0].type.should be_equal Piece::RED
+      g.pieces[2][1].type.should be_equal Piece::RED
+      g.pieces[2][2].type.should be_equal Piece::RED
+      g.pieces[2][3].type.should be_equal Piece::YELLOW
+
+      g.find_other_matching_pieces_and_update_grid
+
+      g.pieces[2][0].type.should be_equal Piece::GREEN
+      g.pieces[2][1].type.should be_equal Piece::YELLOW
+      g.pieces[2][2].type.should be_equal Piece::BLUE
+      g.pieces[2][3].type.should be_equal Piece::YELLOW
+    end
+  end
+
+  context "#find_other_matching_pieces_and_update_grid" do
+    it "should return an array with all matching pieces in the current grid" do
+      g = Grid.new(width: 3, height: 3)
+      g.pieces[0][0] = g.pieces[0][0].assign_color_to_piece Piece::FUCHSIA
+      g.pieces[0][1] = g.pieces[0][1].assign_color_to_piece Piece::RED
+      g.pieces[0][2] = g.pieces[0][2].assign_color_to_piece Piece::BLUE
+
+      g.pieces[1][0] = g.pieces[1][0].assign_color_to_piece Piece::RED
+      g.pieces[1][1] = g.pieces[1][1].assign_color_to_piece Piece::RED
+      g.pieces[1][2] = g.pieces[1][2].assign_color_to_piece Piece::RED
+
+      g.pieces[2][0] = g.pieces[2][0].assign_color_to_piece Piece::FUCHSIA
+      g.pieces[2][1] = g.pieces[2][1].assign_color_to_piece Piece::RED
+      g.pieces[2][2] = g.pieces[2][2].assign_color_to_piece Piece::BLUE
+
+      g.find_other_matching_pieces_and_update_grid
+
+      g.matching_pieces.should include [0,1]
+      g.matching_pieces.should include [1,0]
+      g.matching_pieces.should include [1,1]
+      g.matching_pieces.should include [1,2]
+      g.matching_pieces.should include [2,1]
     end
   end
 end
