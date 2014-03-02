@@ -9,7 +9,8 @@ class Game < Chingu::Window
     super
     self.input = {escape: :exit, left_mouse_button: :click}
     @mouse_clicked = 0
-    @animation_cycle = 0
+    @matching_pieces_highlight_animation_cycle = 0
+    @falling_pieces_animation_cycle = -1
     @grid = Grid.new(width: 10, height: 10)
     @grid.pieces.each_with_index do |row, i|
       row.each_with_index do |piece, j|
@@ -22,25 +23,47 @@ class Game < Chingu::Window
   def draw
     highlight_cursor
 
-    if @animation_cycle == 0
+    if @matching_pieces_highlight_animation_cycle == 0
       if @grid.matching_pieces.size > 2
-        @animation_cycle = 30
+        @matching_pieces_highlight_animation_cycle = 30
       end
-
+    elsif @falling_pieces_animation_cycle > 0
+      @falling_pieces_animation_cycle -= 1
     else
-      @animation_cycle -= 1
-      highlight_pieces @grid.matching_pieces
-      if @animation_cycle == 0
+      @matching_pieces_highlight_animation_cycle -= 1
+      if @matching_pieces_highlight_animation_cycle == 1 && @falling_pieces_animation_cycle == -1
         @grid.update_grid
+        @falling_pieces_animation_cycle = 30
+      elsif @matching_pieces_highlight_animation_cycle == 1 && @falling_pieces_animation_cycle == 0
         @grid.find_other_matching_pieces
+        @matching_pieces_highlight_animation_cycle = 0
+        @falling_pieces_animation_cycle = -1
+      elsif @matching_pieces_highlight_animation_cycle > 0 && @falling_pieces_animation_cycle == -1
+        highlight_pieces @grid.matching_pieces
       end
     end
 
     draw_all_pieces
+    if @falling_pieces_animation_cycle > 0
+      @grid.matching_pieces.each do |piece|
+        piece_y, piece_x = piece
+        piece_y.downto(0).each do |tmp_y|
+          x = piece_x * Piece::WIDTH + @offset
+          y = tmp_y * Piece::WIDTH
+          fill_rect [x, y, Piece::WIDTH, Piece::WIDTH], Gosu::Color::BLACK
+        end
+        piece_y.downto(0).each do |tmp_y|
+          x = piece_x * Piece::WIDTH + @offset
+          y = tmp_y * Piece::WIDTH
+          color = map_piece_type(@grid.pieces[tmp_y][piece_x].type)
+          fill_rect [x+2, y+2 - (@falling_pieces_animation_cycle*2), Piece::WIDTH-4, Piece::WIDTH-4], color
+        end
+      end
+    end
   end
 
   def click
-    return if @animation_cycle > 0
+    return if @matching_pieces_highlight_animation_cycle > 0
     mouse_index_x = ($window.mouse_x.to_i-@offset)/Piece::WIDTH
     mouse_index_y = $window.mouse_y.to_i/Piece::WIDTH
     @grid.select_piece mouse_index_y, mouse_index_x
