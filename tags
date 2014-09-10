@@ -1,0 +1,44 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Colored	app/logic/piece/colored.rb	/^  class Colored < Generic$/;"	c	class:Piece
+Empty	app/logic/piece/empty.rb	/^  class Empty < Generic$/;"	c	class:Piece
+Game	app/view/chingu/game.rb	/^class Game < Chingu::Window$/;"	c
+Generic	app/logic/piece/generic.rb	/^  class Generic$/;"	c	class:Piece
+Grid	app/logic/grid.rb	/^class Grid$/;"	c
+Piece	app/logic/piece.rb	/^module Piece$/;"	m
+Piece	app/logic/piece/colored.rb	/^module Piece$/;"	m
+Piece	app/logic/piece/empty.rb	/^module Piece$/;"	m
+Piece	app/logic/piece/generic.rb	/^module Piece$/;"	m
+assign_color_to_piece	app/logic/piece/empty.rb	/^    def assign_color_to_piece color$/;"	f	class:Piece.Empty
+assign_left_piece	app/logic/piece/generic.rb	/^    def assign_left_piece piece$/;"	f	class:Piece.Generic
+assign_lower_piece	app/logic/piece/generic.rb	/^    def assign_lower_piece piece$/;"	f	class:Piece.Generic
+assign_right_piece	app/logic/piece/generic.rb	/^    def assign_right_piece piece$/;"	f	class:Piece.Generic
+assign_upper_piece	app/logic/piece/generic.rb	/^    def assign_upper_piece piece$/;"	f	class:Piece.Generic
+click	app/view/chingu/game.rb	/^  def click$/;"	f	class:Game
+copy_from_upper_piece	app/logic/piece/empty.rb	/^    def copy_from_upper_piece upper_piece$/;"	f	class:Piece.Empty
+draw	app/view/chingu/game.rb	/^  def draw$/;"	f	class:Game
+draw_all_pieces	app/view/chingu/game.rb	/^  def draw_all_pieces$/;"	f	class:Game
+each_piece	app/logic/grid.rb	/^  def each_piece$/;"	f	class:Grid
+find_matching_pieces	app/logic/grid.rb	/^  def find_matching_pieces$/;"	f	class:Grid
+find_matching_pieces	app/logic/piece/colored.rb	/^    def find_matching_pieces$/;"	f	class:Piece.Colored
+find_other_matching_pieces	app/logic/grid.rb	/^  def find_other_matching_pieces$/;"	f	class:Grid
+generate_empty_piece	app/logic/piece/colored.rb	/^    def generate_empty_piece$/;"	f	class:Piece.Colored
+generate_random_piece	app/logic/piece/empty.rb	/^    def generate_random_piece$/;"	f	class:Piece.Empty
+generate_safe_random_piece	app/logic/piece/empty.rb	/^    def generate_safe_random_piece$/;"	f	class:Piece.Empty
+highlight_cursor	app/view/chingu/game.rb	/^  def highlight_cursor$/;"	f	class:Game
+highlight_pieces	app/view/chingu/game.rb	/^  def highlight_pieces pieces$/;"	f	class:Game
+initialize	app/logic/grid.rb	/^  def initialize args = {}$/;"	f	class:Grid
+initialize	app/logic/piece/colored.rb	/^    def initialize args = {}$/;"	f	class:Piece.Colored
+initialize	app/logic/piece/generic.rb	/^    def initialize args = {}$/;"	f	class:Piece.Generic
+initialize	app/view/chingu/game.rb	/^  def initialize$/;"	f	class:Game
+map_piece_type	app/view/chingu/game.rb	/^  def map_piece_type type$/;"	f	class:Game
+play_move	app/logic/grid.rb	/^  def play_move from, to$/;"	f	class:Grid
+random_type	app/logic/piece/empty.rb	/^    def random_type$/;"	f	class:Piece.Empty
+random_type_excluding	app/logic/piece/empty.rb	/^    def random_type_excluding taken_types$/;"	f	class:Piece.Empty
+select_piece	app/logic/grid.rb	/^  def select_piece y, x$/;"	f	class:Grid
+selected_pieces_are_neighbors?	app/logic/grid.rb	/^  def selected_pieces_are_neighbors?$/;"	f	class:Grid.update_grid
+update_grid	app/logic/grid.rb	/^  def update_grid$/;"	f	class:Grid
